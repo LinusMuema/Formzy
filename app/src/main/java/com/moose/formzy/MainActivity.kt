@@ -1,49 +1,28 @@
 package com.moose.formzy
 
-import android.content.Context
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.activity.viewModels
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import com.moose.formzy.ui.theme.FormzyTheme
 
 class MainActivity : ComponentActivity() {
-    private val TAG = this.toString()
+    private val viewmodel: MainViewmodel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FormzyTheme {
-                Surface(color = MaterialTheme.colors.background) {
-                    Screen()
-                }
+                Content()
             }
         }
     }
 
     @Composable
-    fun Screen(){
-        val state by remember { mutableStateOf(FormState()) }
+    @Preview(showBackground = true)
+    fun Content(){
 
-        Column {
-            Form(
-                state = state,
-                fields = listOf(
-                    Field(name = "username", validators = listOf(Required())),
-                    Field(name = "email", validators = listOf(Required(), Email()))
-                )
-            )
-            Button(onClick = { if (state.validate()) toast("Our form works!") }) {
-                Text("Submit")
-            }
-        }
-    }
-
-    // the toast extension function
-    private fun Context.toast(message: String){
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
